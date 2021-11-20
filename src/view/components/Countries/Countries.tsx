@@ -1,14 +1,11 @@
 import React, { FC } from 'react';
 
-// export type CountriesProps = {
-//     countries:Array<object>,
-//     loading:boolean,
-// }
+export type CountriesProps = {
+    countries:Array<any>,
+}
 
-const Countries = ({ countries, loading }) => {
-	if (loading) {
-		return <h2>Loading...</h2>;
-	}
+const Countries:FC <CountriesProps> = ({ countries}) => {
+	
 	return (
 		<>
 			{countries.map((country, i) => (

@@ -1,13 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Countries from './view/components/Countries';
-import Pagination from './view/components/Pagination';
+import Countries from '../Countries/Countries';
+import Pagination from '../Pagination/Pagination';
 
-function App() {
+
+
+export const TablePage = () => {
 	const [countries, setCountries] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +16,6 @@ function App() {
 		const getCountries = async () => {
 			setLoading(true);
 			const res = await axios.get('https://restcountries.com/v2/all');
-			console.log(res.data);
 			setCountries(res.data);
 			setLoading(false);
 		};
@@ -29,9 +27,30 @@ function App() {
 	const firstCountryIndex = lastCountryIndex - countriesPerPage;
 	const currentCountry = countries.slice(firstCountryIndex, lastCountryIndex);
 
-	const getPagination = (pageNumber) => setCurrentPage(pageNumber);
+	const getPagination = (pageNumber:any) => setCurrentPage(pageNumber);
 	const getNextPage = () => setCurrentPage((prev) => prev + 1);
 	const getPrevPage = () => setCurrentPage((prev) => prev - 1);
+
+	if (loading) {
+		return (
+				<div className='center'>
+					<h2>Loading...</h2>
+					<div className='preloader-wrapper big active'>
+						<div className='spinner-layer spinner-blue'>
+							<div className='circle-clipper left'>
+								<div className='circle'></div>
+							</div>
+							<div className='gap-patch'>
+								<div className='circle'></div>
+							</div>
+							<div className='circle-clipper right'>
+								<div className='circle'></div>
+							</div>
+						</div>
+					</div>
+				</div>
+		);
+	}
 
 	return (
 		<div className='row'>
@@ -41,12 +60,18 @@ function App() {
 					<table className=''>
 						<thead className=''>
 							<tr>
-								<th className='green'>Name</th>
-								<th className='red'>Area</th>
-								<th className='blue'>Population</th>
+								<th className='green' onClick={() => {}}>
+									Name
+								</th>
+								<th className='red' onClick={() => {}}>
+									Area
+								</th>
+								<th className='blue' onClick={() => {}}>
+									Population
+								</th>
 							</tr>
 						</thead>
-						<Countries countries={currentCountry} loading={loading} />
+						<Countries countries={currentCountry} />
 					</table>
 				</div>
 			</div>
@@ -55,10 +80,8 @@ function App() {
 				totalCountries={countries.length}
 				paginate={getPagination}
 				nextPage={getNextPage}
-				prevPage={getPrevPage}
-			/>
+				prevPage={getPrevPage} number={0}			
+				/>
 		</div>
 	);
-}
-
-export default App;
+};

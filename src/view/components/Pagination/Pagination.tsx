@@ -1,6 +1,15 @@
 import React, { FC } from 'react';
 
-const Pagination = ({
+export type PaginationProps = {
+	countriesPerPage:number,
+	totalCountries:number,
+	paginate: ({})=>void,
+	nextPage: ()=>void,
+	prevPage: ()=>void,
+	number:number
+}
+
+const Pagination:FC <PaginationProps> = ({
 	countriesPerPage,
 	totalCountries,
 	paginate,
@@ -23,7 +32,7 @@ const Pagination = ({
 				{pageNumbers.map((number) => (
 					<li key={number}>
 						<button
-							href='!#'
+							ref='!#'
 							className='waves-effect waves-light btn'
 							onClick={() => paginate(number)}
 						>
