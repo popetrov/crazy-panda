@@ -32,7 +32,6 @@ const Pagination:FC <PaginationProps> = ({
 				{pageNumbers.map((number) => (
 					<li key={number}>
 						<button
-							ref='!#'
 							className='waves-effect waves-light btn'
 							onClick={() => paginate(number)}
 						>
