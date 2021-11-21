@@ -6,14 +6,16 @@ import Pagination from '../Pagination/Pagination';
 import { Loading } from '../Loading/Loading';
 
 
-export const TablePage = ({}) => {
+
+export const TablePage = () => {
 
 	const [countries, setCountries] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const[sort, setSort] = useState(true)
+	const [searchValue, setSearchValue] = useState("")
 	const [currentPage, setCurrentPage] = useState(1);
 	const [countriesPerPage] = useState(25);
-
+	
 
 	useEffect(() => {
 		const getCountries = async () => {
@@ -26,9 +28,31 @@ export const TablePage = ({}) => {
 		getCountries();
 	}, []);
 
+	const Filtration = () =>{
+		return(
+			<div className="row">
+				<form className="col s12">
+					<div className="row">
+						<div className="input-field col s12">
+							<textarea id="textarea1" className="materialize-textarea" placeholder="input text" value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}}></textarea>
+							<label htmlFor="textarea1"></label>
+						</div>
+					</div>
+				</form>
+			</div>
+		)
+	}
+
+
+	const filterCountry = countries.filter(country=>{
+		//@ts-ignore
+		return country.name.toLowerCase().includes(searchValue)
+	})
+
+
 	const lastCountryIndex = currentPage * countriesPerPage;
 	const firstCountryIndex = lastCountryIndex - countriesPerPage;
-	const currentCountry:any = countries.slice(firstCountryIndex, lastCountryIndex);
+	const currentCountry:any = filterCountry.slice(firstCountryIndex, lastCountryIndex);
 
 	const getPagination = (pageNumber:any) => setCurrentPage(pageNumber);
 	const getNextPage = () => setCurrentPage((prev) => prev + 1);
@@ -54,7 +78,6 @@ export const TablePage = ({}) => {
 		setSort(!sort)
 	}
 
-
 	if (loading) {
 		return (
 				<Loading/>
@@ -63,6 +86,7 @@ export const TablePage = ({}) => {
 
 	return (
 		<div className='row'>
+			<Filtration />
 			<Countries countries={currentCountry} sortData={sortData}/>
 			<Pagination
 				countriesPerPage={countriesPerPage}
@@ -75,5 +99,7 @@ export const TablePage = ({}) => {
 		</div>
 	);
 };
+
+
 
 

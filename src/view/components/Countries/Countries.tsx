@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 export type CountriesProps = {
     countries:Array<any>,
@@ -6,7 +6,7 @@ export type CountriesProps = {
 }
 
 const Countries:FC <CountriesProps> = ({ countries,  sortData}) => {
-	
+
 	return (
 
 			<div className='container'>
